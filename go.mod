@@ -1,4 +1,4 @@
-module github.com/SEU_USUARIO/go-gin-api
+module github.com/grupoG/csw24-grupoG-ticket-gin
 
 go 1.21.0
 

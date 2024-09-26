@@ -1,18 +1,25 @@
 package main
 
 import (
-    "github.com/gin-gonic/gin"
-    "net/http"
+    "github.com/grupoG/csw24-grupoG-ticket-gin/configs"
+    "github.com/grupoG/csw24-grupoG-ticket-gin/controllers"
+    "github.com/grupoG/csw24-grupoG-ticket-gin/repositories"
+    "github.com/grupoG/csw24-grupoG-ticket-gin/routes"
+    "github.com/grupoG/csw24-grupoG-ticket-gin/services"
 )
 
 func main() {
-    router := gin.Default()
+    // Configurar o banco de dados
+    db := configs.SetupDatabase()
 
-    router.GET("/ping", func(c *gin.Context) {
-        c.JSON(http.StatusOK, gin.H{
-            "message": "pong",
-        })
-    })
+    // Inicializar camadas
+    sampleRepository := repositories.NewSampleRepository(db)
+    sampleService := services.NewSampleService(sampleRepository)
+    sampleController := controllers.NewSampleController(sampleService)
 
-    router.Run(":8080") // Inicia o servidor na porta 8080
+    // Configurar as rotas
+    router := routes.SetupRouter(sampleController)
+
+    // Iniciar o servidor
+    router.Run(":8080")
 }

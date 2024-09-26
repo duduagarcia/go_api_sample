@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"ticket-groupg-gin/models"
+	"github.com/grupoG/csw24-grupoG-ticket-gin/models"
 	"gorm.io/gorm"
 )
 
@@ -9,7 +9,7 @@ type SampleRepository struct {
     DB *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) *SampleRepository {
+func NewSampleRepository(db *gorm.DB) *SampleRepository {
     return &SampleRepository{DB: db}
 }
 
