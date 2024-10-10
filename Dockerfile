@@ -18,6 +18,8 @@ ENV CGO_ENABLED=1 GOOS=linux
 # Build the Go app for Linux with CGO enabled
 RUN go build -o main .
 
+RUN apk add --no-cache postgresql-client
+
 # Stage 2: Copy the binary and run it in a smaller image
 FROM alpine:latest
 WORKDIR /app
