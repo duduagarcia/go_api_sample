@@ -2,11 +2,12 @@
 FROM golang:1.21-alpine AS builder
 WORKDIR /app
 
-# Install build dependencies for CGO (SQLite support)
-RUN apk add --no-cache gcc musl-dev
+# Install Git and build dependencies (such as GCC)
+RUN apk add --no-cache git gcc musl-dev
 
 # Copy go mod and sum files
 COPY go.mod go.sum ./
+
 RUN go mod download
 
 # Copy the source code
@@ -18,12 +19,12 @@ ENV CGO_ENABLED=1 GOOS=linux
 # Build the Go app for Linux with CGO enabled
 RUN go build -o main .
 
-RUN apk add --no-cache postgresql-client
-
 # Stage 2: Copy the binary and run it in a smaller image
 FROM alpine:latest
 WORKDIR /app
 
+# Install build dependencies for CGO (SQLite support)
+RUN apk add --no-cache postgresql-client
 # Copy the built binary from the builder stage
 COPY --from=builder /app/main .
 

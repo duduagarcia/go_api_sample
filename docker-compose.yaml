@@ -9,3 +9,18 @@ services:
       - .:/app  # Mount your local directory into the container
     environment:
       - ENV=development  # Set environment variables (optional)
+      - DB_HOST=postgresdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydb
+    depends_on:
+      - postgresdb
+
+  postgresdb:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
