@@ -13,11 +13,16 @@ RUN go mod download
 # Copy the source code
 COPY . .
 
+
 # Set environment variables for CGO and target architecture
 ENV CGO_ENABLED=1 GOOS=linux
 
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+RUN swag init
+
 # Build the Go app for Linux with CGO enabled
 RUN go build -o main .
+
 
 # Stage 2: Copy the binary and run it in a smaller image
 FROM alpine:latest

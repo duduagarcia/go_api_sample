@@ -3,9 +3,12 @@ package main
 import (
 	"github.com/grupoG/csw24-grupoG-ticket-gin/configs"
 	"github.com/grupoG/csw24-grupoG-ticket-gin/controllers"
+	_ "github.com/grupoG/csw24-grupoG-ticket-gin/docs"
 	"github.com/grupoG/csw24-grupoG-ticket-gin/repositories"
 	"github.com/grupoG/csw24-grupoG-ticket-gin/routes"
 	"github.com/grupoG/csw24-grupoG-ticket-gin/services"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func main() {
@@ -19,6 +22,9 @@ func main() {
 
 	// Configurar as rotas
 	router := routes.SetupRouter(sampleController)
+
+	// swagger
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Iniciar o servidor
 	router.Run(":8080")
