@@ -1,14 +1,12 @@
-version: "3"
-
 services:
   web:
-    build: .  # Build the image using the Dockerfile in the current directory
+    build: .  # Construir a partir do Dockerfile na pasta atual
     ports:
-      - "8080:8080"  # Expose port 8080 in the container to port 8080 on your local machine
+      - "8080:8080"
     volumes:
-      - .:/app  # Mount your local directory into the container
+      - .:/app  # Montar o diretório local para desenvolvimento
     environment:
-      - ENV=development  # Set environment variables (optional)
+      - ENV=development
       - DB_HOST=postgresdb
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -24,3 +22,18 @@ services:
       POSTGRES_DB: mydb
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgresdb
+
+volumes:
+  postgres_data:

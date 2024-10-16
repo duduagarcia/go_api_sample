@@ -18,6 +18,28 @@ Trabalho da disciplina de construção de software da PUCRS 2024/2
 go run main.go
 ```
 
+### Com docker v2
+
+```bash
+# rodar uma vez só para buildar os containers
+docker-compose up --build
+```
+
+```bash
+# com os containers já criados
+docker-compose up
+```
+
+```bash
+# para listar os containers
+docker-compose ps
+```
+
+```bash
+# parar os containers mas sem removêlos
+docker-compose down
+```
+
 ### Com docker
 
 ```bash
