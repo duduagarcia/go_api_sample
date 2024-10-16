@@ -83,3 +83,11 @@ go mod download
 - [  ] Criar a infraestrutura da AWS com o Terraform
 - [  ] Subir a aplicação na AWS
 - [  ] Ser feliz
+
+
+# importante e to com preguiça de colocar bonitnho
+
+terraform output -raw private_key_pem > my-key.pem
+chmod 400 my-key.pem
+cat my-key.pem
+ssh -i my-key.pem ec2-user@<EC2_PUBLIC_IP>

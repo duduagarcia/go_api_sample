@@ -8,8 +8,9 @@ resource "aws_instance" "teste_t1" {
 
     vpc_security_group_ids = [aws_security_group.api_access.id]
 
+    key_name = aws_key_pair.my_key_pair.key_name
     tags = {
-      Name = "ec2-t1-example"
+      Name = "ec2-t1"
     }
 }
 
@@ -44,6 +45,30 @@ resource "aws_security_group" "api_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "api port"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "pg port"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+    ingress {
+    description = "pgAdmin port"
+    from_port   = 5050
+    to_port     = 5050
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # Regra de saída que permite todo o tráfego
   egress {
     from_port   = 0
@@ -53,3 +78,18 @@ resource "aws_security_group" "api_access" {
   }
 }
 
+# Criação da ssh keypair diretamente no terraform
+resource "tls_private_key" "my_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "my_key_pair" {
+  key_name   = "my-ec2-key"
+  public_key = tls_private_key.my_key.public_key_openssh
+}
+
+output "private_key_pem" {
+  value     = tls_private_key.my_key.private_key_pem
+  sensitive = true
+}
