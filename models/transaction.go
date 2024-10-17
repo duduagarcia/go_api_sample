@@ -1,10 +1,12 @@
 package models
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
-type TransactionModel struct {
+type Transaction struct {
 	gorm.Model              
 	TenantID       uint     `gorm:"not null"`            // FK to Tenant
 	BuyerID        uint     `gorm:"not null"`            // FK to User (buyer)

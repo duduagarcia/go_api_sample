@@ -12,6 +12,6 @@ type Ticket struct {
 	SellerID      uint          `gorm:"not null"`           // FK to User (seller)
 	VerificationCode string     `gorm:"size:100;not null"`  
 	Status        string        `gorm:"size:50;not null"`   
-	Transaction   TransactionModel   `gorm:"foreignKey:TicketID"` // One-to-one relationship with Transaction
+	Transaction   Transaction   `gorm:"foreignKey:TicketID"` // One-to-one relationship with Transaction
 }
 

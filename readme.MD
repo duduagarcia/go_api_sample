@@ -31,13 +31,17 @@ docker-compose up
 ```
 
 ```bash
-# para listar os containers
+# para listar os containers ativos
 docker-compose ps
+
+
+# para listar os containers desligados
+docker-compose ps -a
 ```
 
 ```bash
 # parar os containers mas sem removêlos
-docker-compose down
+docker-compose stop
 ```
 
 ### Com docker
