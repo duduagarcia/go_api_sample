@@ -16,7 +16,7 @@ func SetupDatabase() *gorm.DB {
 	user := "postgres"
 	password := "postgres"
 	dbname := "mydb"
-	port := "5432" // Porta padrão do Postgres
+	port := "5432"
 
 	// String de conexão
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, user, password, dbname, port)
@@ -29,6 +29,7 @@ func SetupDatabase() *gorm.DB {
 
 	// Migrar o schema
 	err = db.AutoMigrate(
+		&models.Sample{},
 		&models.Tenant{}, 
 		&models.User{}, 
 		&models.Event{}, 
@@ -42,13 +43,18 @@ func SetupDatabase() *gorm.DB {
 
 	// Inserir dados iniciais
 	createInitialData(db)
-	// seeds.RunSeeds(db)
 
 	return db
 }
 
 // Função para criar registros iniciais
 func createInitialData(db *gorm.DB) {
+	// Criando Samples
+	sample1 := models.Sample{ID: 1, Name: "Sample A", Email: "Description A"}
+	sample2 := models.Sample{ID: 2, Name: "Sample B", Email: "Description B"}
+	db.Create(&sample1)
+	db.Create(&sample2)
+
 	// Criando Tenants
 	tenant1 := models.Tenant{Name: "Tenant A", ContactInfo: "contact@tenanta.com", SpecificConfigurations: "Config A"}
 	tenant2 := models.Tenant{Name: "Tenant B", ContactInfo: "contact@tenantb.com", SpecificConfigurations: "Config B"}

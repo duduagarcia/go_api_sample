@@ -17,6 +17,7 @@ func NewSampleController(service *services.SampleService) *SampleController {
 }
 
 func (ctrl *SampleController) GetAllSamples(c *gin.Context) {
+    // c.JSON(http.StatusOK, gin.H{"message": "Hello, World!"})
     samples, err := ctrl.Service.GetAllSamples()
     if err != nil {
         utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
