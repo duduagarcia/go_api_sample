@@ -2,6 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# Cria uma EC2
 resource "aws_instance" "teste_t1" {
     ami = "ami-0866a3c8686eaeeba"
     instance_type = "t2.micro"
@@ -14,6 +15,7 @@ resource "aws_instance" "teste_t1" {
     }
 }
 
+# Cria um security group(firewall) para ec2
 resource "aws_security_group" "api_access" {
   name        = "API-security-group-T1"
   description = "Security group para permitir SSH, HTTP e HTTPS"
@@ -45,6 +47,7 @@ resource "aws_security_group" "api_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # porta da api 
   ingress {
     description = "api port"
     from_port   = 8080
@@ -53,6 +56,7 @@ resource "aws_security_group" "api_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # porta do banco de dados
   ingress {
     description = "pg port"
     from_port   = 5432
@@ -61,6 +65,7 @@ resource "aws_security_group" "api_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # porta do pgAdmin
     ingress {
     description = "pgAdmin port"
     from_port   = 5050
@@ -76,9 +81,11 @@ resource "aws_security_group" "api_access" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # pode ser uma boa botar uma regra para liberar um ICMP, para possíveis debugs com ping
 }
 
-# Criação da ssh keypair diretamente no terraform
+# Criação da ssh keypair diretamente no terraform para acessar a ec2
 resource "tls_private_key" "my_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
